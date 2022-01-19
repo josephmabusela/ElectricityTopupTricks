@@ -29,7 +29,7 @@ app.set('view engine', 'handlebars');
 const electricityMeters = ElectricityMeters(pool);
 
 app.get('/', function(req, res) {
-	res.render('/index');
+	res.render('index');
 });
 
 app.get('/streets', async function(req, res) {
