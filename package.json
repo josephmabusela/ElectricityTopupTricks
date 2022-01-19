@@ -7,9 +7,7 @@
     "start": "node index.js",
     "test": "mocha"
   },
-  "keywords": [
-    "heroku"
-  ],
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
