@@ -1,14 +1,15 @@
 <h2>Meters</h2>
 
 <table>
-{{#each electricity_meter}}
+{{#each street_meters}}
 <tr>
 	<td>
-		{{meter_number}}
+		{{street_number}}
 	</td>
 	<td>
-		<a href="/meters/{{id}}">Meters in street</a>
+		{{balance}}
 	</td>
 </tr>
+
 {{/each}}
 </table>

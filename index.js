@@ -30,10 +30,12 @@ const electricityMeters = ElectricityMeters(pool);
 
 app.get('/', async function(req, res) {
 
-	const showStreets = await electricityMeters.streets()
+	const showStreets = await electricityMeters.streets();
+	const appliances = await electricityMeters.appliances();
 
 	res.render('index', {
-		showStreets
+		showStreets,
+		appliances
 	});
 });
 
@@ -41,6 +43,13 @@ app.get('/streets', async function(req, res) {
 	
 	res.render('streets', {
 		streets
+	});
+});
+
+app.get('/appliances', async function(req, res) {
+	const appliances = await electricityMeters.appliances();
+	res.render('appliances', {
+		appliances
 	});
 });
 
@@ -52,6 +61,8 @@ app.get('/meter/:street_id', async function(req, res) {
 	// create  template called street_meters.handlebars
 	// in there loop over all the meters and show them on the screen.
 	// show the street number and name and the meter balance
+
+	const meters = await electricityMeters.streetMeters()
 
 	res.render('street_meters', {
 		meters

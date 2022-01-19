@@ -11,35 +11,35 @@ module.exports = function(pool) {
 
 	// for a given street show all the meters and their balances
 	async function streetMeters(streetId) {
-		const getMeterById = `select * from electricity_meter where id = $1`;
-		const result = await pool.query(getMeterById, [streetId])
-		if (result.rows.length > 0) {
-			return result.rows[0];
-		}
+		const streetMeters = await pool.query(`select id, balance from electricity_meter where street_id = $1`, [streetId]);
+		return streetMeters.rows;
 	}
 
 	// return all the appliances
 	async function appliances() {
-		const showAppliances = `select * from appliance`;
-		const result = await pool.query(showAppliances)
-		return result.rows;
+		const showAppliances = await pool.query(`select name, rate from appliance`);
+		return showAppliances.rows;
 	}
 
 	// increase the meter balance for the meterId supplied
 	async function topupElectricity(meterId, units) {
-		const recharge = `update electricity_meter set balance = balance + 50 where meter_number = $4`;
-		const result = await pool.query(recharge, [units][meterId]);
-		return result.rows
+		const recharge = await pool.query(`update electricity_meter set balance = $1 where meter_number = $1`, [units], [meterId]);
+		return recharge.rows
+
 	}
 	
 	// return the data for a given balance
-	function meterData(meterId) {
-	
+	async function meterData(meterId) {
+		const meter = await pool.query(`select * from electricity_meter where id = $1`, [meterId]);
+		return meter.rows;
 	}
 
 	// decrease the meter balance for the meterId supplied
-	function useElectricity(meterId, units) {
-	
+	async function useElectricity(meterId, units) {
+		const currentUnits = await pool.query(`select balance from electricity_meter`);
+		const consumeUnits = currentUnits - units;
+		const availableUnits = await pool.query(`update electricity_meter set balance = $1 where id = $1`,[consumeUnits], [meterId]);
+		return availableUnits.rows;
 	}
 
 	return {
@@ -50,6 +50,5 @@ module.exports = function(pool) {
 		meterData,
 		useElectricity
 	}
-
 
 }
