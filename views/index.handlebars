@@ -1,0 +1,18 @@
+
+
+<h2>Streets</h2>
+<table>
+	<tr>
+		<th>Street name</th>
+		<th>Qty</th>
+		<th>Total cost</th>
+	</tr>
+	{{#each streets}}
+	<tr>
+		<td>{{description}}</td>
+		<td>
+			<a href="/basket/edit">Edit</a>
+		</td>
+	</tr>
+	{{/each}}
+</table>

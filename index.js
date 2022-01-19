@@ -8,7 +8,7 @@ const PORT =  process.env.PORT || 3017;
 
 const ElectricityMeters = require('./electricity-meters');
 
-const connectionString = process.env.DATABASE_URL ||'postgresql://matome:pg123@localhost:5433/topups_db';
+const connectionString = process.env.DATABASE_URL ||'postgresql://topup:pg123@localhost:5433/topups_db';
 
 const pool = new Pool({
     connectionString  
@@ -28,13 +28,17 @@ app.set('view engine', 'handlebars');
 
 const electricityMeters = ElectricityMeters(pool);
 
-app.get('/', function(req, res) {
-	res.render('index');
+app.get('/', async function(req, res) {
+
+	const showStreets = await electricityMeters.streets()
+
+	res.render('index', {
+		showStreets
+	});
 });
 
 app.get('/streets', async function(req, res) {
-	const streets = await electricityMeters.streets();
-	console.log(streets);
+	
 	res.render('streets', {
 		streets
 	});
