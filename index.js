@@ -1,7 +1,7 @@
 const express = require('express');
 const exphbs  = require('express-handlebars');
-const pg = require('pg');
-const Pool = pg.Pool;
+//const pg = require('pg');
+const { Pool } = require('pg');
 
 const app = express();
 const PORT =  process.env.PORT || 3017;
@@ -15,16 +15,18 @@ const pool = new Pool({
 	ssl: { rejectUnauthorized: false}
 });
 
-const { Client } = require('pg');
+pool.connect();
 
-const client = new Client({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
-});
+//const { Client } = require('pg');
 
-client.connect();
+// const client = new Client({
+//   connectionString: process.env.DATABASE_URL,
+//   ssl: {
+//     rejectUnauthorized: false
+//   }
+// });
+
+// client.connect();
 
 // enable the req.body object - to allow us to use HTML forms
 app.use(express.json());
