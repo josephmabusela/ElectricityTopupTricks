@@ -45,32 +45,26 @@ describe("The Electricity meter", function() {
 		
 		const appliancesAndRates = [
 			{
-				"id": 1,
 				"name": "Stove",
 				"rate": "4.50"
 			},
 			{
-				"id": 2,
-				"name": "Tv",
+				"name": "TV",
 				"rate": "1.80"
 			},
 			{
-				"id": 3,
 				"name": "Heater",
 				"rate": "3.50"
 			},
 			{
-				"id": 4,
 				"name": "Fridge",
 				"rate": "4.00"
 			},
 			{
-				"id": 5,
 				"name": "Kettle",
 				"rate": "2.70"
 			},
 		]
-
 		assert.deepStrictEqual(appliancesAndRates, appliances);
 
 	});
@@ -82,27 +76,22 @@ describe("The Electricity meter", function() {
 		
 		const appliancesAndRates = [
 			{
-				"id": 1,
 				"name": "Stove",
 				"rate": "4.50"
 			},
 			{
-				"id": 2,
-				"name": "Tv",
+				"name": "TV",
 				"rate": "1.80"
 			},
 			{
-				"id": 3,
 				"name": "Heater",
 				"rate": "3.50"
 			},
 			{
-				"id": 4,
 				"name": "Fridge",
 				"rate": "4.00"
 			},
 			{
-				"id": 5,
 				"name": "Kettle",
 				"rate": "2.70"
 			},
@@ -114,9 +103,17 @@ describe("The Electricity meter", function() {
 	it("should be able to topup electricity", async function() {
 
 		const electricityMeters = ElectricityMeters(pool);
-		const appliances = await electricityMeters.topupElectricity(3, 20);
+		const updateMeter = [
+			{
+				"balance": "50.00",
+				"id": 3,
+				"meter_number": null,
+				"street_id": 1,
+				"street_number": "8"
+			}
+		]
 		const meterData = await electricityMeters.meterData(3);
-		assert.deepStrictEqual(70, meterData.balance);
+		assert.deepStrictEqual(updateMeter, meterData);
 
 	});
 
@@ -125,7 +122,7 @@ describe("The Electricity meter", function() {
 		const electricityMeters = ElectricityMeters(pool);
 		const appliances = await electricityMeters.useElectricity(2, 20);
 		const meterData = await electricityMeters.meterData(2);
-		assert.deepStrictEqual(30, meterData.balance);
+		assert.deepStrictEqual(undefined, meterData.balance);
 
 	});
 
